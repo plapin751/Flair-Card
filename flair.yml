@@ -1,0 +1,41 @@
+type: custom:stack-in-card
+cards:
+  - type: custom:mushroom-climate-card
+    entity: climate.master_mini_hvac_unit
+    show_temperature_control: true
+    name: Master Bedroom HVAC
+    layout: horizontal
+    fill_container: false
+    primary_info: name
+    secondary_info: none
+  - type: custom:mini-graph-card
+    hours_to_show: 24
+    entities:
+      - sensor.master_temperature
+      - sensor.master_humidity
+    show:
+      labels: true
+      name: false
+      icon: false
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-entity-card
+        entity: sensor.master_light
+        layout: horizontal
+        name: Light
+      - type: custom:mushroom-entity-card
+        entity: sensor.master_pressure
+        layout: horizontal
+        name: Pressure
+      - type: custom:mushroom-template-card
+        primary: Power
+        secondary: '{{ states(''sensor.solar_load_consumption'') }} watts'
+        icon: mdi:power
+        layout: hor
+        entity: switch.master_mini_hvac_power
+        icon_color: >
+          {% if is_state('switch.master_mini_hvac_power', 'on') %} yellow {%
+          endif %}
+        fill_container: true
+        badge_color: ''
+        multiline_secondary: true
